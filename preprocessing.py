@@ -102,5 +102,3 @@ labels_one_hot = to_categorical(labels, num_classes=num_classes)
 
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.2, random_state=42)
-
-
