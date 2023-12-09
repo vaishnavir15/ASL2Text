@@ -1,0 +1,5 @@
+os
+cv2
+numpy
+scikit-learn
+tensorflow==2.7.0
