@@ -4,46 +4,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import time
 from keras.utils import to_categorical
-
-
-# categories for each letter/number
-categories = {  0: "a",
-                1: "b",
-                2: "c",
-                3: "d",
-                4: "e",
-                5: "f",
-                6: "g",
-                7: "h",
-                8: "i",
-                9: "j",
-                10: "k",
-                11: "l",
-                12: "m",
-                13: "n",
-                14: "o",
-                15: "p",
-                16: "q",
-                17: "r",
-                18: "s",
-                19: "t",
-                20: "u",
-                21: "v",
-                22: "w",
-                23: "x",
-                24: "y",
-                25: "z",
-                26: "0",
-                27: "1", 
-                28: "2",
-                29: "3",
-                30: "4",
-                31: "5",
-                32: "6",
-                33: "7",
-                34: "8",
-                35: "9"  
-            }
+import matplotlib.pyplot as plt
 
 # Set the path to your dataset
 dataset_path = 'asl-dataset'
@@ -106,11 +67,33 @@ def load_and_preprocess_data(dataset_path, img_size):
 data, labels = load_and_preprocess_data(dataset_path, img_size)
 print("Out of for loop, now will print num_classes ")
 # Convert labels to one-hot encoding
-num_classes = len(categories)
-print(num_classes)
+
+num_classes=36
 
 labels_one_hot = to_categorical(labels, num_classes=num_classes)
 
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.2, random_state=42)
+
+# Print shapes and types
+print("Shape of data:", data.shape)
+print("Shape of labels:", labels.shape)
+print("Data type of data:", data.dtype)
+
+# Visual Inspection: Display a few images
+for i in range(0, 2515, 60):
+    plt.imshow(data[i])
+    plt.title(f"Label: {labels[i]}")
+    plt.show()
+
+# Check the first few labels
+print("Sample labels:", labels[:5])
+
+# Check one-hot encoding
+print("One-hot encoded labels shape:", labels_one_hot.shape)
+
+# Check class distribution
+print("Class distribution in labels:", np.sum(labels_one_hot, axis=0))
+
+
 print("DONE")
