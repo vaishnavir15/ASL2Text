@@ -72,7 +72,7 @@ def load_and_preprocess_data(dataset_path, img_size):
         # Loop through each image in the category folder
         counter = 1
         for img_name in os.listdir(category_path):
-            # print(counter)
+            print(counter)
             counter+=1
             img_path = os.path.join(category_path, img_name)
             
@@ -108,7 +108,9 @@ print("Out of for loop, now will print num_classes ")
 # Convert labels to one-hot encoding
 num_classes = len(categories)
 print(num_classes)
-# labels_one_hot = to_categorical(labels, num_classes=num_classes)
 
-# # Split the data into training and testing sets
-# X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.2, random_state=42)
+labels_one_hot = to_categorical(labels, num_classes=num_classes)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.2, random_state=42)
+print("DONE")
