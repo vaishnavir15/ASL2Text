@@ -2,6 +2,7 @@ import os
 import cv2
 import numpy as np
 from sklearn.model_selection import train_test_split
+import time
 from tensorflow.keras.utils import to_categorical
 
 
@@ -45,7 +46,7 @@ categories = {  0: "a",
             }
 
 # Set the path to your dataset
-dataset_path = '/asl-dataset'
+dataset_path = 'asl-dataset'
 
 # Set the size of the images
 img_size = (400, 400) 
@@ -55,6 +56,7 @@ def load_and_preprocess_data(dataset_path, img_size):
     data = []
     labels = []
 
+    start_time = time.time()
     # Loop through each folder (0, 1, 2, ..., 9 and a, b, c, ..., z)
     for category in os.listdir(dataset_path):
         category_path = os.path.join(dataset_path, category)
@@ -68,7 +70,10 @@ def load_and_preprocess_data(dataset_path, img_size):
         print(label)
 
         # Loop through each image in the category folder
+        counter = 1
         for img_name in os.listdir(category_path):
+            # print(counter)
+            counter+=1
             img_path = os.path.join(category_path, img_name)
             
             try:
@@ -90,15 +95,20 @@ def load_and_preprocess_data(dataset_path, img_size):
             except Exception as e:
                 # Handle any exceptions that may occur during image loading
                 print(f"Error loading image: {img_path}, Error: {str(e)}")
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Time taken to process images: {elapsed_time} seconds")
 
     return np.array(data), np.array(labels)
 
 # Load and preprocess the data
-data, labels = load_and_preprocess_data(dataset_path, img_size)
 
+data, labels = load_and_preprocess_data(dataset_path, img_size)
+print("Out of for loop, now will print num_classes ")
 # Convert labels to one-hot encoding
 num_classes = len(categories)
-labels_one_hot = to_categorical(labels, num_classes=num_classes)
+print(num_classes)
+# labels_one_hot = to_categorical(labels, num_classes=num_classes)
 
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.2, random_state=42)
+# # Split the data into training and testing sets
+# X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.2, random_state=42)
