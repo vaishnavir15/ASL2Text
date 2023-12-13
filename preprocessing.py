@@ -85,8 +85,8 @@ num_classes=36
 labels_one_hot = to_categorical(labels, num_classes=num_classes)
 
 # Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.1, random_state=42)
-#----------> test_size = 0.2 -> 0.4 -> 0.1
+X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.2, random_state=42)
+#----------> test_size = 0.2 -> 0.4 -> 0.1->0.2
 
 # # Print shapes and types
 # print("Shape of data:", data.shape)
@@ -130,7 +130,8 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 # Train the model
 batch_size = 32
 epochs = 10
-history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1)
+history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.2)
+#---------->validation_split = 0.1 -> 0.2
 
 # Evaluate the model on the test set
 test_loss, test_acc = model.evaluate(X_test, y_test)
