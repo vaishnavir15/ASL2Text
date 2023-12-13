@@ -130,8 +130,8 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 # Train the model
 batch_size = 32
 epochs = 10
-history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.3)
-#---------->validation_split = 0.1 -> 0.2 -> 0.3
+history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.2)
+#---------->validation_split = 0.1 -> 0.2 -> 0.3 -> 0.2
 
 # Evaluate the model on the test set
 test_loss, test_acc = model.evaluate(X_test, y_test)
