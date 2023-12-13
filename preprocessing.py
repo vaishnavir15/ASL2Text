@@ -85,8 +85,8 @@ num_classes=36
 labels_one_hot = to_categorical(labels, num_classes=num_classes)
 
 # Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.4, random_state=42)
-#----------> test_size = 0.2 -> 0.4
+X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.1, random_state=42)
+#----------> test_size = 0.2 -> 0.4 -> 0.1
 
 # # Print shapes and types
 # print("Shape of data:", data.shape)
