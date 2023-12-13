@@ -85,7 +85,8 @@ num_classes=36
 labels_one_hot = to_categorical(labels, num_classes=num_classes)
 
 # Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.4, random_state=42)
+#----------> test_size = 0.2 -> 0.4
 
 # # Print shapes and types
 # print("Shape of data:", data.shape)
@@ -109,7 +110,7 @@ X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_s
 
 
 # ------------------------ CNN MODEL ----------------------------- #
-
+startCNN = time.time()
 # Define the CNN model
 model = Sequential()
 model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(400, 400, 3)))
@@ -136,7 +137,10 @@ test_loss, test_acc = model.evaluate(X_test, y_test)
 print(f'Test accuracy: {test_acc}')
 
 # Save the model
-model.save('asl_model.h5')
+# model.save('asl_model.h5')
+endCNN = time.time()
+totalCNN = endCNN - startCNN
+print(f"Time taken to train model: {totalCNN} seconds")
 
 
 print("DONE")
