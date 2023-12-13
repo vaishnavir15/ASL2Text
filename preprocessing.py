@@ -140,3 +140,4 @@ model.save('asl_model.h5')
 
 
 print("DONE")
+
