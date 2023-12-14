@@ -112,17 +112,27 @@ X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_s
 # ------------------------ CNN MODEL ----------------------------- #
 startCNN = time.time()
 # Define the CNN model
+# model = Sequential()
+# model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(400, 400, 3)))
+# model.add(MaxPooling2D(pool_size=(2, 2)))
+# model.add(Conv2D(64, (3, 3), activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2)))
+# model.add(Conv2D(128, (3, 3), activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2)))
+# model.add(Flatten())
+# model.add(Dense(256, activation='relu'))
+# model.add(Dropout(0.5))
+# model.add(Dense(num_classes, activation='softmax'))
+
+# Reduce the complexity of the model
 model = Sequential()
 model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(400, 400, 3)))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Conv2D(64, (3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Conv2D(128, (3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
-model.add(Dense(256, activation='relu'))
+model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='softmax'))
+
 
 # Compile the model
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
@@ -130,8 +140,8 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 # Train the model
 batch_size = 32
 epochs = 10
-history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.2)
-#---------->validation_split = 0.1 -> 0.2 -> 0.3 -> 0.2
+history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1)
+#---------->validation_split = 0.1 -> 0.2 -> 0.3 -> 0.2-> 0.1 (bc of a tut)
 
 # Evaluate the model on the test set
 test_loss, test_acc = model.evaluate(X_test, y_test)
