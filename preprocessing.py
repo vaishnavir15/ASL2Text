@@ -134,15 +134,12 @@ model.add(Conv2D(128, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Conv2D(256, (3, 3), activation='relu'))  # Additional Conv2D layer
 model.add(MaxPooling2D(pool_size=(2, 2)))
+# model.add(Conv2D(512, (3, 3), activation='relu'))  # Additional Conv2D layer
+# model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
 model.add(Dense(512, activation='relu'))  # Increase Dense units 512->1024->256->128->512
 model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='softmax'))
-
-
-
-
-
 
 # Compile the model
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
