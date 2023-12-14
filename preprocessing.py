@@ -137,7 +137,7 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Conv2D(512, (3, 3), activation='relu'))  # Additional Conv2D layer LETS TRY W THIS (need to beat 96.6)
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
-model.add(Dense(256, activation='relu'))  # Increase Dense units 512->1024->256
+model.add(Dense(128, activation='relu'))  # Increase Dense units 512->1024->256->128
 model.add(Dropout(0.5))
 model.add(Dense(num_classes, activation='softmax'))
 
