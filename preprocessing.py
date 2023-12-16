@@ -151,7 +151,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 
 # Train the model
 # Train the model with callbacks
-batch_size = 50 #32->50
+batch_size = 64 #32->50 (GOT 95.6)->64(AFTER (95.6))
 epochs = 10
 # not included with 95.4 (added callbacks)
 history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1)
