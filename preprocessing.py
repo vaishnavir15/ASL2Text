@@ -10,6 +10,8 @@ import sklearn  # Add this line to import the sklearn module
 import matplotlib
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+#from keras.callbacks import EarlyStopping, ReduceLROnPlateau
+
 
 
 print("OpenCV version:", cv2.__version__)
@@ -134,8 +136,6 @@ model.add(Conv2D(128, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Conv2D(256, (3, 3), activation='relu'))  # Additional Conv2D layer
 model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Conv2D(512, (3, 3), activation='relu'))  # Additional Conv2D layer
-# model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
 model.add(Dense(512, activation='relu'))  # Increase Dense units 512->1024->256->128->512
 model.add(Dropout(0.5))
@@ -144,9 +144,16 @@ model.add(Dense(num_classes, activation='softmax'))
 # Compile the model
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
+# Define callbacks # not included with 95.4
+# early_stopping = EarlyStopping(monitor='val_loss', min_delta=0.001, patience=5, restore_best_weights=True, verbose=0)
+# reduce_learning_rate = ReduceLROnPlateau(monitor='val_acc', patience=2, factor=0.5, verbose=1)
+
+
 # Train the model
-batch_size = 32
+# Train the model with callbacks
+batch_size = 50 #32->50
 epochs = 10
+# not included with 95.4 (added callbacks)
 history = model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.1)
 #---------->validation_split = 0.1 -> 0.2 -> 0.3 -> 0.2-> 0.1 (bc of a tut)
 
