@@ -112,18 +112,6 @@ X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_s
 
 # ------------------------ CNN MODEL ----------------------------- #
 startCNN = time.time()
-# Define the CNN model
-# model = Sequential()
-# model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(400, 400, 3)))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Conv2D(64, (3, 3), activation='relu'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Conv2D(128, (3, 3), activation='relu'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Flatten())
-# model.add(Dense(256, activation='relu'))
-# model.add(Dropout(0.5))
-# model.add(Dense(num_classes, activation='softmax'))
 
 
 model = Sequential()
@@ -138,7 +126,7 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
 model.add(Dense(512, activation='relu'))  # Increase Dense units 512->1024->256->128->512
 model.add(Dropout(0.5))
-model.add(Dense(256, activation='relu'))  # Increase Dense units 512->1024->256->128->512 ADDED AFTER WE ACHUEVED 95.8
+model.add(Dense(256, activation='relu'))  # Increase Dense units 512->1024->256->128->512 ADDED AFTER WE ACHUEVED 95.8 (ACHIEVED 96.4)
 model.add(Dropout(0.5)) ###################################^^^^
 model.add(Dense(num_classes, activation='softmax'))
 
