@@ -2,11 +2,13 @@ import cv2
 import numpy as np
 from keras.models import load_model
 import os
+import time
 
+startDetection = time.time()
 # Load the trained model
 model = load_model('als_model.h5')
 
-test_image_path = 'images/a.jpeg'  # Replace with the path to your test image 
+test_image_path = 'images/b11.png'  # Replace with the path to your test image 
 img_size = (400, 400)
 
 test_img = cv2.imread(test_image_path)
@@ -28,3 +30,9 @@ else:
 
     # Print or use the predicted class as needed
     print(f"Predicted Class: {predicted_class}")
+
+endDetection = time.time()
+totalDetection = endDetection - startDetection
+print(f"Time taken to train model: {totalDetection} seconds")
+print("DONE")
+
