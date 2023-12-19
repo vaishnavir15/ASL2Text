@@ -89,7 +89,7 @@ labels_one_hot = to_categorical(labels, num_classes=num_classes)
 X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_size=0.2, random_state=42)
 #----------> test_size = 0.2 -> 0.4 -> 0.1->0.2
 
-# # Print shapes and types
+# Print shapes and types
 # print("Shape of data:", data.shape)
 # print("Shape of labels:", labels.shape)
 # print("Data type of data:", data.dtype)
@@ -110,7 +110,7 @@ X_train, X_test, y_train, y_test = train_test_split(data, labels_one_hot, test_s
 # print("Class distribution in labels:", np.sum(labels_one_hot, axis=0))
 
 
-# ------------------------ CNN MODEL ----------------------------- #
+#------------------------ CNN MODEL ----------------------------- #
 startCNN = time.time()
 
 
@@ -152,7 +152,6 @@ model.save('asl_model.h5')
 endCNN = time.time()
 totalCNN = endCNN - startCNN
 print(f"Time taken to train model: {totalCNN} seconds")
-
+ 
 
 print("DONE")
-
