@@ -23,6 +23,9 @@ while True:
     # Convert the BGR image to RGB
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
+    # Create a copy of the frame without landmarks
+    frame_without_landmarks = frame.copy()
+
     # Process the frame with Mediapipe Hands
     results = hands.process(rgb_frame)
 
@@ -63,12 +66,12 @@ while True:
             y = min(frame.shape[0] - side_length, y)
 
             # Extract the region of interest (ROI) around the hand
-            hand_roi = frame[y:y + side_length, x:x + side_length]
+            hand_roi = frame_without_landmarks[y:y + side_length, x:x + side_length]
 
-            # Save the close-up image with landmarks
-            cv2.imwrite('hand_with_landmarks.png', hand_roi)
+            # Save the close-up image without landmarks
+            cv2.imwrite('hand_without_landmarks.png', hand_roi)
 
-            # Display the close-up image
+            # Display the close-up image without landmarks
             cv2.imshow('Close-Up Hand Image', hand_roi)
 
             print("Image saved")
