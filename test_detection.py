@@ -8,7 +8,7 @@ startDetection = time.time()
 # Load the trained model
 model = load_model('als_model.h5')
 
-test_image_path = 'images/b9.jpg'  # Replace with the path to your test image 
+test_image_path = 'images/a7.png'  # Replace with the path to your test image 
 img_size = (400, 400)
 
 test_img = cv2.imread(test_image_path)
