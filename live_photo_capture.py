@@ -52,14 +52,18 @@ while True:
             w = int((max(last_hand_landmarks.landmark, key=lambda l: l.x).x - min(last_hand_landmarks.landmark, key=lambda l: l.x).x) * frame.shape[1])
             h = int((max(last_hand_landmarks.landmark, key=lambda l: l.y).y - min(last_hand_landmarks.landmark, key=lambda l: l.y).y) * frame.shape[0])
 
+            # Add some padding and make it a square
+            padding = 20
+            side_length = max(w, h) + padding
+            x = max(0, x - (side_length - w) // 2)
+            y = max(0, y - (side_length - h) // 2)
+
             # Ensure the bounding box is within the image boundaries
-            x = max(0, x)
-            y = max(0, y)
-            w = min(frame.shape[1], x + w)
-            h = min(frame.shape[0], y + h)
+            x = min(frame.shape[1] - side_length, x)
+            y = min(frame.shape[0] - side_length, y)
 
             # Extract the region of interest (ROI) around the hand
-            hand_roi = frame[y:h, x:w]
+            hand_roi = frame[y:y + side_length, x:x + side_length]
 
             # Save the close-up image with landmarks
             cv2.imwrite('hand_with_landmarks.png', hand_roi)
