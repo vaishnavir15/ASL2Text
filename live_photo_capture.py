@@ -56,7 +56,7 @@ while True:
             h = int((max(last_hand_landmarks.landmark, key=lambda l: l.y).y - min(last_hand_landmarks.landmark, key=lambda l: l.y).y) * frame.shape[0])
 
             # Add some padding and make it a square
-            padding = 20
+            padding = 30
             side_length = max(w, h) + padding
             x = max(0, x - (side_length - w) // 2)
             y = max(0, y - (side_length - h) // 2)
