@@ -68,11 +68,26 @@ while True:
             # Extract the region of interest (ROI) around the hand
             hand_roi = frame_without_landmarks[y:y + side_length, x:x + side_length]
 
-            # Save the close-up image without landmarks
-            cv2.imwrite('hand_without_landmarks.png', hand_roi)
+            # Create a black canvas with the same size as the hand image
+            black_background = np.zeros_like(hand_roi)
 
-            # Display the close-up image without landmarks
-            cv2.imshow('Close-Up Hand Image', hand_roi)
+            # Create a binary mask of the hand region
+            _, mask = cv2.threshold(cv2.cvtColor(hand_roi, cv2.COLOR_BGR2GRAY), 1, 255, cv2.THRESH_BINARY)
+
+            # Invert the mask
+            mask_inv = cv2.bitwise_not(mask)
+
+            # Create a black background with the inverted mask
+            result_image = cv2.bitwise_and(black_background, black_background, mask=mask_inv)
+
+            # Add the hand image to the black background using the original mask
+            result_image = cv2.bitwise_or(result_image, hand_roi)
+
+            # Save the close-up image with a black background
+            cv2.imwrite('hand_with_black_background.png', result_image)
+
+            # Display the close-up image with a black background
+            cv2.imshow('Hand Image with Black Background', result_image)
 
             print("Image saved")
 
