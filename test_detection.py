@@ -1,18 +1,45 @@
+from rembg import remove
+from PIL import Image
 import cv2
 import numpy as np
 from keras.models import load_model
 import os
 import time
 
+def remove_background(input_path, output_path):
+    # Load the input image
+    input_image = Image.open(input_path)
+
+    # Use rembg to remove the background
+    output_image = remove(input_image)
+
+    # Create a new image with a black background
+    new_image = Image.new("RGBA", output_image.size, (0, 0, 0, 255))
+
+    # Paste the transparent image onto the black background
+    new_image.paste(output_image, (0, 0), output_image)
+
+    # Save the final image with a black background
+    new_image.save(output_path)
+
 startDetection = time.time()
+
+# Specify the paths
+input_path = 'hand_without_landmarks.png'
+output_path = 'hand_without_landmarks_clear.png'
+
+# Call the background removal function
+remove_background(input_path, output_path)
+
 # Load the trained model
 model = load_model('als_model.h5')
 
-test_image_path = 'images/b7.png'  # Replace with the path to your test image 
+test_image_path = output_path  # Use the output of background removal as the test image
+
 img_size = (400, 400)
 
+# Load the test image
 test_img = cv2.imread(test_image_path)
-print(test_img)
 if test_img is None:
     print(f"Error loading image from path: {test_image_path}")
 else:
@@ -35,4 +62,3 @@ endDetection = time.time()
 totalDetection = endDetection - startDetection
 print(f"Time taken to train model: {totalDetection} seconds")
 print("DONE")
-
