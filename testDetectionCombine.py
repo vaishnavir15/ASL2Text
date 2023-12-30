@@ -6,6 +6,8 @@ from keras.models import load_model
 import os
 import time
 import mediapipe as mp
+import tkinter as tk
+
 
 def translatedResult(predicted_class):
     translate = {
@@ -49,6 +51,7 @@ def translatedResult(predicted_class):
     print(f"Translated letter: {translate[str(predicted_class)]}")
     return translate[str(predicted_class)]
 
+
 def remove_background_and_predict(input_path, output_path, model_path):
     # Remove background
     input_image = Image.open(input_path)
@@ -83,6 +86,14 @@ def remove_background_and_predict(input_path, output_path, model_path):
 
     return predicted_class
 
+
+def update_labels(letter_label, all_letters_label, letter, predicted_letters):
+    letter_label.config(text=f"Current Letter: {letter}")
+
+    all_letters_label.config(
+        text=f"Predicted Letters: {' '.join(map(str, predicted_letters))}")
+
+
 def capture_hand_image():
     # Time Tracking
     startCamera = time.time()
@@ -98,6 +109,17 @@ def capture_hand_image():
     last_hand_landmarks = None
     predicted_letters = []
 
+    root = tk.Tk()
+    root.title("ASL to Text Translator")
+
+    predicted_letter_label = tk.Label(root, text="Current Letter: ", font=("Helvetica", 16))
+    predicted_letter_label.grid(row=0, column=0, sticky="nw")
+
+    all_letters_label = tk.Label(root, text="Predicted Letters: ", font=("Helvetica", 16))
+    all_letters_label.grid(row=1, column=0, sticky="nw")
+
+    def destroy_root():
+        root.destroy()
 
     while True:
         # Capture frame-by-frame
@@ -169,35 +191,37 @@ def capture_hand_image():
                 model_path = 'als_model.h5'
 
                 # Call the background removal and prediction function
-                predicted_class = remove_background_and_predict(input_path, output_path, model_path)
+                predicted_class = remove_background_and_predict(
+                    input_path, output_path, model_path)
 
                 if predicted_class is not None:
                     # print(f"Predicted Class: {predicted_class}")
                     letter = translatedResult(predicted_class)
-                    predicted_letters.append(letter) # Terminal
-                    
-
+                    predicted_letters.append(letter)  # Terminal
+                    # predicted_letters_label.config(text=f"Predicted Letters: {letter}")
+                    update_labels(predicted_letter_label,
+                                  all_letters_label, letter, predicted_letters)
 
         # Break the loop when 'q' is pressed
         elif key == ord('q'):
-            print("Predicted Letters:", ''.join(map(str, predicted_letters)))  # Terminal
+            # predicted_letters_label.config(text=f"Predicted Letters: {''.join(map(str, predicted_letters))}")
+            print("Predicted Letters:", ''.join(
+                map(str, predicted_letters)))  # Terminal
+            update_labels(predicted_letter_label, all_letters_label, "")
+            root.after(30000, destroy_root)
             break
 
+        # predicted_letters_label.config(text=f"Predicted Letters: {''.join(predicted_letters)}")
+        root.update_idletasks()
+        root.update()
+
     # Release the camera and close all windows
+
     cap.release()
     cv2.destroyAllWindows()
 
-    
-    
     # Time Tracking
     endCamera = time.time()
     totalCamera = endCamera - startCamera
     # print(f"Time taken to take photo: {totalCamera} seconds")
     print("DONE")
-
-
-
-
-
-
-
