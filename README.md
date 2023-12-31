@@ -13,12 +13,12 @@ This repository contains a **Convolutional Neural Network** (CNN) model for reco
 2. **Live Hand Gesture Capture:**
    - The system captures live hand gestures using the computer's camera.
    - It leverages the **Mediapipe** library to detect and track hand landmarks in *real-time*.
-   ![Alt text](images\README_images\landmarks.png)
+   ![image](images\README_images\landmarks.png)
 
 3. **Background Removal:**
    - The captured hand gesture is isolated by creating a bounding box by taking advantage of the landmarks created.
    - The code uses the **Rembg** library to eliminate the background and create a clean hand image.
-   ![Alt text](images\README_images\normal-background.png) ![Alt text](images\README_images\black-background.png)
+   ![image](images\README_images\normal-background.png) ![image](images\README_images\black-background.png)
 4. **Translation and GUI Display:**
    - The predicted class is translated into the corresponding letter using a dictionary.
    - The translated letter is displayed on a user-friendly Tkinter GUI.
@@ -27,7 +27,7 @@ This repository contains a **Convolutional Neural Network** (CNN) model for reco
    - Users can press the **spacebar** to capture a frame of their hand gesture.
    - The GUI *dynamically* updates to show the recognized letter and the history of predicted letters.
    - The system runs continuously until the user presses **'q'**, making it convenient for communication.
-   ![Alt text](images\README_images\GUI-test.png)
+   ![image](images\README_images\GUI-test.png)
 
 ### Usage
 
