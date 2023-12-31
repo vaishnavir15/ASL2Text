@@ -4,87 +4,13 @@ import cv2
 import numpy as np
 from keras.models import load_model
 import os
-import time
+
 import mediapipe as mp
 import tkinter as tk
+from prediction import predict_result
+from remove_background import remove_background
+from translate_result import translate_result
 
-
-def translatedResult(predicted_class):
-    translate = {
-        '0': 0,
-        '1': 1,
-        '2': 2,
-        '3': 3,
-        '4': 4,
-        '5': 5,
-        '6': 6,
-        '7': 7,
-        '8': 8,
-        '9': 9,
-        '10': 'A',
-        '11': 'B',
-        '12': 'C',
-        '13': 'D',
-        '14': 'E',
-        '15': 'F',
-        '16': 'G',
-        '17': 'H',
-        '18': 'I',
-        '19': 'J',
-        '20': 'K',
-        '21': 'L',
-        '22': 'M',
-        '23': 'N',
-        '24': 'O',
-        '25': 'P',
-        '26': 'Q',
-        '27': 'R',
-        '28': 'S',
-        '29': 'T',
-        '30': 'U',
-        '31': 'V',
-        '32': 'W',
-        '33': 'X',
-        '34': 'Y',
-        '35': 'Z'
-    }
-    print(f"Translated letter: {translate[str(predicted_class)]}")
-    return translate[str(predicted_class)]
-
-
-def remove_background_and_predict(input_path, output_path, model_path):
-    # Remove background
-    input_image = Image.open(input_path)
-    output_image = remove(input_image)
-
-    # Create a new image with a black background
-    new_image = Image.new("RGBA", output_image.size, (0, 0, 0, 255))
-    new_image.paste(output_image, (0, 0), output_image)
-
-    # Save the final image with a black background
-    new_image.save(output_path)
-
-    # Load the trained model
-    model = load_model(model_path)
-
-    # Load the test image
-    test_img = cv2.imread(output_path)
-    if test_img is None:
-        print(f"Error loading image from path: {output_path}")
-        return None
-
-    test_img = cv2.cvtColor(test_img, cv2.COLOR_BGR2RGB)
-    test_img = cv2.resize(test_img, (400, 400))
-    test_img = test_img / 255.0
-    test_img = np.expand_dims(test_img, axis=0)
-
-    # Make predictions
-    predictions = model.predict(test_img)
-
-    # Assuming it's a classification task, get the predicted class
-    predicted_class = np.argmax(predictions)
-
-    return predicted_class
 
 
 def update_labels(letter_label, all_letters_label, letter, predicted_letters):
@@ -95,8 +21,6 @@ def update_labels(letter_label, all_letters_label, letter, predicted_letters):
 
 
 def capture_hand_image():
-    # Time Tracking
-    startCamera = time.time()
 
     # Open the camera
     cap = cv2.VideoCapture(0)
@@ -145,7 +69,7 @@ def capture_hand_image():
                 last_hand_landmarks = hand_landmarks
 
         # Display the resulting frame with landmarks
-        cv2.imshow('ASL to Text Translator', frame)
+        cv2.imshow('ASL to Text Translator (RIGHT HAND ONLY)', frame)
 
         # Check for key press
         key = cv2.waitKey(1)
@@ -182,36 +106,31 @@ def capture_hand_image():
                 cv2.imwrite('hand_without_landmarks.png', hand_roi)
 
                 # Display the close-up image without landmarks
-                cv2.imshow('Close-Up Hand Image', hand_roi)
-
-                print("Image saved")
+                # cv2.imshow('Close-Up Hand Image', hand_roi)
 
                 input_path = 'hand_without_landmarks.png'
                 output_path = 'hand_without_landmarks_clear.png'
-                model_path = 'als_model.h5'
+                model_path = 'asl_model.h5'
 
                 # Call the background removal and prediction function
-                predicted_class = remove_background_and_predict(
-                    input_path, output_path, model_path)
+                remove_background(input_path, output_path)
+                predicted_class = predict_result(output_path, model_path)
 
                 if predicted_class is not None:
                     # print(f"Predicted Class: {predicted_class}")
-                    letter = translatedResult(predicted_class)
+                    letter = translate_result(predicted_class)
                     predicted_letters.append(letter)  # Terminal
-                    # predicted_letters_label.config(text=f"Predicted Letters: {letter}")
                     update_labels(predicted_letter_label,
                                   all_letters_label, letter, predicted_letters)
 
         # Break the loop when 'q' is pressed
         elif key == ord('q'):
-            # predicted_letters_label.config(text=f"Predicted Letters: {''.join(map(str, predicted_letters))}")
             print("Predicted Letters:", ''.join(
                 map(str, predicted_letters)))  # Terminal
             update_labels(predicted_letter_label, all_letters_label, "")
             root.after(30000, destroy_root)
             break
 
-        # predicted_letters_label.config(text=f"Predicted Letters: {''.join(predicted_letters)}")
         root.update_idletasks()
         root.update()
 
@@ -220,8 +139,4 @@ def capture_hand_image():
     cap.release()
     cv2.destroyAllWindows()
 
-    # Time Tracking
-    endCamera = time.time()
-    totalCamera = endCamera - startCamera
-    # print(f"Time taken to take photo: {totalCamera} seconds")
-    print("DONE")
+    
