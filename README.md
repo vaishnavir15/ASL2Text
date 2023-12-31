@@ -34,21 +34,22 @@ This repository contains a **Convolutional Neural Network** (CNN) model for reco
 
 ### Usage
 
-1. Clone the repository:
+1. Download Python 3.9.6 [here](https://www.python.org/downloads/release/python-396/)
+2. Clone the repository:
    ```bash
    git clone https://github.com/Keta-Khatri/ASL2Text.git
    ```
-2. Install dependencies:
+3. Install dependencies:
     ```bash
    pip install -r requirements.txt
    ```
-3. Fix compatibility issues:
+4. Fix compatibility issues:
     ```bash
     pip uninstall opencv-python
     pip uninstall opencv-python-headless
     pip install opencv-python
     ```
-4. Run the ASL recoginition:
+5. Run the ASL recoginition:
     ```bash
    python main.py
    ```
