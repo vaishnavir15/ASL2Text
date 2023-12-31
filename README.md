@@ -1,5 +1,5 @@
--[/# ASL2Text
-
+# ASL2Text
+---
 ### Overview
 
 This repository contains a **Convolutional Neural Network** (CNN) model for recognizing **American Sign Language** (ASL) gestures. The model is trained to classify hand signs corresponding to both digits (0-9) and letters (A-Z). This **live** American Sign Language (ASL) to Text Translator is a **Python** program that utilizes *computer vision and machine learning techniques* to interpret hand gestures captured by a webcam and **translate** them into text with a graphical user interface (GUI) to enhance accessibility for ASL users.
@@ -13,11 +13,13 @@ This repository contains a **Convolutional Neural Network** (CNN) model for reco
 2. **Live Hand Gesture Capture:**
    - The system captures live hand gestures using the computer's camera.
    - It leverages the **Mediapipe** library to detect and track hand landmarks in *real-time*.
+
    ![image1](images/README_images/landmarks.png)
 
 3. **Background Removal:**
    - The captured hand gesture is isolated by creating a bounding box by taking advantage of the landmarks created.
    - The code uses the **Rembg** library to eliminate the background and create a clean hand image.
+
    ![image2](images/README_images/normal-background.png) ![image3](images/README_images/black-background.png)
 4. **Translation and GUI Display:**
    - The predicted class is translated into the corresponding letter using a dictionary.
@@ -27,6 +29,7 @@ This repository contains a **Convolutional Neural Network** (CNN) model for reco
    - Users can press the **spacebar** to capture a frame of their hand gesture.
    - The GUI *dynamically* updates to show the recognized letter and the history of predicted letters.
    - The system runs continuously until the user presses **'q'**, making it convenient for communication.
+   
    ![image4](images/README_images/GUI-test.png)
 
 ### Usage
@@ -49,7 +52,7 @@ This repository contains a **Convolutional Neural Network** (CNN) model for reco
     ```bash
    python main.py
    ```
-
+---
 Credit:
 
 |Name|Email|
