@@ -1,14 +1,11 @@
 import cv2
 import numpy as np
 from keras.models import load_model
-import os
-import time
 
 def predict_result( output_path, model_path):
-    # Load the trained model
+    # Load the trained model, resize and normalize the image, then predict it using the preloaded model
     model = load_model(model_path)
 
-    # Load the test image
     test_img = cv2.imread(output_path)
     if test_img is None:
         print(f"Error loading image from path: {output_path}")
@@ -19,10 +16,8 @@ def predict_result( output_path, model_path):
     test_img = test_img / 255.0
     test_img = np.expand_dims(test_img, axis=0)
 
-    # Make predictions
     predictions = model.predict(test_img)
 
-    # Assuming it's a classification task, get the predicted class
     predicted_class = np.argmax(predictions)
 
     return predicted_class

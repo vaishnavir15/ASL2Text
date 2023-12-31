@@ -1,2 +1,3 @@
-# ASL2Text
-This will help you translate ASL to text!
+# Introduction
+Welcome to ASL2Text! This program is a trained CNN model with 97% accuracy. 
+

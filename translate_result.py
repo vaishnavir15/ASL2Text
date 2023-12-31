@@ -1,4 +1,5 @@
 def translate_result(predicted_class):
+    # Uses the dictionary to translate the predicted results
     translate = {
         '0': 0,
         '1': 1,
